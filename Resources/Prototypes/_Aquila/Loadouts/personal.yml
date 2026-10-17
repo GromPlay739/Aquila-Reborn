@@ -1,0 +1,111 @@
+# Личные лоадауты.
+
+#region Дисклеймер
+
+# ПРОШУ ВАС ПРОПИСЫВАТЬ В ЛОАДАУТ ТОЛЬКО НЕИМБОВЫЕ ПРЕДМЕТЫ, НЕ НУЖНО ДОБАВЛЯТЬ ВЕЩИ
+# КОТОРЫЕ ДАЮТ КАКОЕ-ЛИБО ПРЕИМУЩЕСТВО, НАПРИМЕР, ТЕЛЕСКОПИЧЕСКУЮ ДУБИНКУ, ЛИБО
+# ТЕЛЕКРИСТАЛЛЫ И Т.П.
+# МАКСИМУМ ВЫ МОЖЕТЕ В ЛИЧНЫХ ВЕЩАХ ВЫБРАТЬ ТОЛЬКО 5 ВЕЩЕЙ.
+
+# Каждый лоадаут появляется во вкладке "Мой инвентарь" любой станционной роли,
+# но виден и доступен только игрокам, чьи UUID указаны в PersonalLoadoutEffect.
+# Один лоадаут - один предмет: так у него будут своё название и иконка в меню. СТРОГО СЛЕДОВАТЬ ЭТОМУ ПРАВИЛУ.
+
+#endregion
+
+#region Пример
+
+- type: loadout
+  id: PersonalLoadoutExampleBeret # Пример
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 00000000-0000-0000-0000-000000000000 # Ваш UUID
+  equipment: # Наденется на вас, заменяя старую вещь, старая вещь кладётся в рюкзак, либо в руку, если места нет
+    head: ClothingHeadHatBeret # Слот головы
+    # jumpsuit: ClothingUniformJumpsuitColorGrey # Слот комбинезона
+    # outerClothing: ClothingOuterCoatJensen # Слот верхней одежды
+    # suitstorage: FlashlightLantern # Слот спины
+    # shoes: ClothingShoesColorBlack # Слот ног
+    # gloves: ClothingHandsGlovesColorBlack # Слот перчаток
+    # neck: ClothingNeckScarfStripedRed # Слот шеи
+    # mask: ClothingMaskBandBlack # Слот маски
+    # eyes: ClothingEyesGlassesSunglasses # Слот глаз
+    # ears: ClothingHeadsetGrey # Слот ушей
+    # belt: ClothingBeltUtility # Слот пояса
+    # back: ClothingBackpack # Слот сумки
+    # pocket1: Lighter # Слот левого кармана
+    # pocket2: Lighter # Слот правого кармана
+    # id: PassengerPDA # Слот ID
+
+- type: loadout
+  id: PersonalLoadoutExampleDuck # Пример
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 00000000-0000-0000-0000-000000000000 # Ваш UUID
+  storage: # Кладётся в хранилище
+    back: # Сумка
+    - ToyRubberDuck
+  # belt: # Пояс
+  # - Lighter
+
+#endregion
+
+#region Лоадауты
+
+# CrookLv
+- type: loadout
+  id: PersonalLoadoutCrookLvPlushie # плюшевый Круки-Лим
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 2efe22d0-4ff1-4d5b-9cc7-324bf9452cff
+  storage:
+    back:
+    - PlushieCrookie
+# CrookLv
+
+# KEEYN
+- type: loadout
+  id: PersonalLoadoutKeeynFlower
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 39328e26-5588-4c9b-9211-29cd40c64183
+  equipment:
+    head: ClothingHeadFlowerCentComGold
+
+- type: loadout
+  id: PersonalLoadoutKeeynSkirt
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 39328e26-5588-4c9b-9211-29cd40c64183
+  equipment:
+    jumpsuit: Theteamleadersjumpsuitskirt_sacerdos
+    
+- type: loadout
+  id: PersonalLoadoutKeeynGlasses
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 39328e26-5588-4c9b-9211-29cd40c64183
+  equipment:
+    eyes: ClothingCentComGlassesYellowNoThermal
+    
+- type: loadout
+  id: PersonalLoadoutKeeynSatchel
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 39328e26-5588-4c9b-9211-29cd40c64183
+  equipment:
+    back: ClothingBackpackSatchelLeaderSacerdos
+# KEEYN
+
+# Ckey
+# something
+# Ckey
+
+#endregion

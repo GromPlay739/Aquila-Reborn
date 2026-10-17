@@ -1,0 +1,9 @@
+- type: shader
+  id: MansusMadness
+  kind: source
+  path: "/Textures/_Aquila/Shaders/mansus_madness.swsl"
+
+- type: shader
+  id: XenoRainbow
+  kind: source
+  path: "/Textures/_Aquila/Shaders/xeno_rainbow.swsl"

@@ -1,0 +1,12 @@
+ent-Thejumpsuitofthesquadleader_sacerdos = элитный комбинезон
+    .desc = Униформа крутых ребят, выполняющих тактические операции.
+ent-Theteamleadersjumpsuitskirt_sacerdos = элитная юбка-комбинезон
+    .desc = Униформа крутых ребят, выполняющих тактические операции.
+ent-SquadLeadersCloak_sacerdos = элитный плащ
+    .desc = Элитный чёрный плащ с красивой золотой отделкой. Он настолько тяжёлый, что золотая отделка, вероятно, настоящая.
+ent-ClothingBackpackSatchelLeaderSacerdos = элитная сумка
+    .desc = Здесь остались следы тех, кто ослушался!
+ent-ClothingBackpackDuffelLeaderSacerdos = элитный вещмешок
+    .desc = Здесь остались следы тех, кто ослушался!
+ent-ClothingBackpackLeaderSacerdos = элитный рюкзак
+    .desc = Здесь остались следы тех, кто ослушался!

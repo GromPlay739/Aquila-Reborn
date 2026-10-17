@@ -1,0 +1,93 @@
+- type: entity
+  parent: ClothingEyesGlassesCentComm
+  id: ClothingCentComGlassesGreen
+  name: CENTCOM's Green Glasses
+  suffix: Vl, ЦентКом
+  description: Stylish CENTCOM Tactical Glasses
+  components:
+  - type: Sprite
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_green.rsi
+  - type: Clothing
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_green.rsi
+
+- type: entity
+  parent: ClothingEyesGlassesCentComm
+  id: ClothingCentComGlassesEmerald
+  name: CENTCOM Emerald Glasses
+  suffix: Vl, ЦентКом
+  description: Wearing them makes you feel like a merchant with rather unprofitable prices. And a big nose.
+  components:
+  - type: Sprite
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_emerald.rsi
+  - type: Clothing
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_emerald.rsi
+
+- type: entity
+  parent: ClothingEyesGlassesCentComm
+  id: ClothingCentComGlassesYellow
+  name: CENTCOM Yellow Glasses
+  suffix: Vl, ЦентКом
+  description: Stylish CENTCOM Tactical Glasses
+  components:
+  - type: Sprite
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_yellow.rsi
+  - type: Clothing
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_yellow.rsi
+  - type: ThermalVision
+    color: "#e1ac0c"
+
+- type: entity
+  parent: ClothingEyesGlassesCentCommNoThermal
+  id: ClothingCentComGlassesYellowNoThermal
+  name: CENTCOM Yellow Glasses
+  suffix: Vl, ЦентКом, No thermals
+  description: Stylish CENTCOM Tactical Glasses
+  components:
+  - type: Sprite
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_yellow.rsi
+  - type: Clothing
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_yellow.rsi
+
+- type: entity
+  parent: ClothingEyesGlassesCentComm
+  id: ClothingCentComGlassesGold
+  name: CentCom Gold Glasses
+  suffix: Vl, ЦентКом
+  description: Gold-plated glasses for the richest paper uncles and aunts.
+  components:
+  - type: Sprite
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_gold.rsi
+  - type: Clothing
+    sprite: _Aquila/Clothing/Eyes/centcom_glasses_gold.rsi
+  - type: ThermalVision
+    color: "#e1ac0c"
+
+- type: entity
+  parent: ClothingEyesGlassesDeathsquad
+  id: ClothingDSOGlassesWhite
+  name: White DSO Glasses
+  suffix: Vl, ДСО
+  description: Stylish Tactical Glasses DSO
+  components:
+  - type: Sprite
+    sprite: _Aquila/Clothing/Eyes/dso_glasses_white.rsi
+  - type: Clothing
+    sprite: _Aquila/Clothing/Eyes/dso_glasses_white.rsi
+  - type: ThermalVision
+    color: "#cacaca"
+
+- type: entity
+  parent: ClothingEyesGlassesDeathsquad
+  id: ClothingDSOGlassesDiamond
+  name: Colorless glasses
+  suffix: Vl, ДСО
+  description: They look depressing. However, they are suitable to look at war crimes
+  components:
+  - type: Sprite
+    sprite: _Aquila/Clothing/Eyes/dso_glasses_diamond.rsi
+  - type: Clothing
+    sprite: _Aquila/Clothing/Eyes/dso_glasses_diamond.rsi
+  - type: ThermalVision
+    color: "#cacaca"
+
+
