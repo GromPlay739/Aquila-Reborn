@@ -9,6 +9,7 @@
 
 # Каждый лоадаут появляется во вкладке "Мой инвентарь" любой станционной роли,
 # но виден и доступен только игрокам, чьи UUID указаны в PersonalLoadoutEffect.
+# Если в PersonalLoadoutEffect указан список roles, вещь появится только у этих ролей.
 # Один лоадаут - один предмет: так у него будут своё название и иконка в меню. СТРОГО СЛЕДОВАТЬ ЭТОМУ ПРАВИЛУ.
 
 #endregion
@@ -21,6 +22,8 @@
   - !type:PersonalLoadoutEffect
     users:
     - 00000000-0000-0000-0000-000000000000 # Ваш UUID
+    # roles: # Необязательно: роли, у которых вещь появится в "Мой инвентарь". Без списка вещь доступна у всех ролей
+    # - Warden
   equipment: # Наденется на вас, заменяя старую вещь, старая вещь кладётся в рюкзак, либо в руку, если места нет
     head: ClothingHeadHatBeret # Слот головы
     # jumpsuit: ClothingUniformJumpsuitColorGrey # Слот комбинезона
@@ -84,7 +87,7 @@
     - 39328e26-5588-4c9b-9211-29cd40c64183
   equipment:
     jumpsuit: Theteamleadersjumpsuitskirt_sacerdos
-    
+
 - type: loadout
   id: PersonalLoadoutKeeynGlasses
   effects:
@@ -93,7 +96,7 @@
     - 39328e26-5588-4c9b-9211-29cd40c64183
   equipment:
     eyes: ClothingCentComGlassesYellowNoThermal
-    
+
 - type: loadout
   id: PersonalLoadoutKeeynSatchel
   effects:
@@ -103,6 +106,40 @@
   equipment:
     back: ClothingBackpackSatchelLeaderSacerdos
 # KEEYN
+
+# McDonaldsObamaBurger
+- type: loadout
+  id: PersonalLoadoutWedgeCoat
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - e6512798-ab5c-4e57-a411-bd9a8e4ffcf7
+    roles:
+    - Warden
+  equipment:
+    outerClothing: ClothingOuterCoatWardenWedge
+# McDonaldsObamaBurger
+
+# gleb_debrucho
+- type: loadout
+  id: PersonalLoadoutGlebDebruchoShirt
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 4a42b778-2199-415a-afa4-71360cbb9254
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitBornInUssp
+
+- type: loadout
+  id: PersonalLoadoutGlebDebruchoLollypop
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 4a42b778-2199-415a-afa4-71360cbb9254
+  storage:
+    back:
+    - FoodSnackLollypopWrappedBeer
+# gleb_debrucho
 
 # Ckey
 # something

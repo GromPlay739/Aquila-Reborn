@@ -130,7 +130,7 @@
   id: OfficerHandgun
   name: steal-target-groups-officer-handguns
   sprite:
-    sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
+    sprite: _Goobstation/Objects/Weapons/Guns/Pistols/mk58.rsi
     state: base
 
 - type: stealTargetGroup
@@ -351,7 +351,7 @@
   id: Teg
   name: steal-target-groups-teg
   sprite:
-    sprite: Structures/Power/Generation/teg.rsi
+    sprite: _Aquila/Structures/Power/Generation/teg.rsi # Aquila Change
     state: teg
 
 - type: stealTargetGroup
