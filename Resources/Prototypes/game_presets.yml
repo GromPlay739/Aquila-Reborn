@@ -92,7 +92,7 @@
   - extended
   - shittersafari
   name: extended-title
-  showInVote: false #2boring2vote
+  showInVote: true # Aquila Change
   description: extended-description
   rules:
   - BasicStationEventScheduler
@@ -135,7 +135,7 @@
     - secret
     - sekrit
   name: secret-title
-  showInVote: true # НАДО
+  showInVote: false # Aquila Change
   description: secret-description
   rules:
     - Secret

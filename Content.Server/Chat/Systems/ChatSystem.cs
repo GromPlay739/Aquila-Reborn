@@ -45,6 +45,7 @@ using Robust.Shared.Utility;
 using System.Collections.Immutable; // Goobstation - Starlight collective mind port
 using System.Collections.Immutable; // Goobstation - Starlight collective mind port
 using System.Globalization;
+using Content.Server._Aquila.Chat; // Aquila Change
 using System.Globalization;
 using System.Linq;
 using System.Linq;
@@ -87,6 +88,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     [Dependency] private readonly ScryingOrbSystem _scrying = default!; // Goobstation Change
     [Dependency] private readonly CollectiveMindUpdateSystem _collectiveMind = default!; // Goobstation - Starlight collective mind port
     [Dependency] private readonly LanguageSystem _language = default!; // Einstein Engines - Language
+    [Dependency] private readonly VacuumChatSystem _vacuumChat = default!; // Aquila Change
 
     public const int VoiceRange = 10; // how far voice goes in world units
     public const int WhisperClearRange = 2; // how far whisper goes while still being understandable, in world units
@@ -747,6 +749,10 @@ public sealed partial class ChatSystem : SharedChatSystem
                 continue;
             listener = session.AttachedEntity.Value;
 
+            var vacuumHearing = _vacuumChat.GetHearing(source, listener); // Aquila Change
+            if (vacuumHearing == VacuumHearing.None) // Aquila Change
+                continue; // Aquila Change
+
             if (MessageRangeCheck(session, data, range) != MessageRangeCheckResult.Full)
                 continue; // Won't get logged to chat, and ghosts are too far away to see the pop-up, so we just won't send it to them.
 
@@ -789,7 +795,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                 wrappedMessage = WrapWhisperMessage(source, "chat-manager-entity-whisper-unknown-wrap-message", string.Empty, result, language, colorOverride);
             }
 
-            _chatManager.ChatMessageToOne(ChatChannel.Whisper, result, wrappedMessage, source, false, session.Channel);
+            _chatManager.ChatMessageToOne(ChatChannel.Whisper, result, _vacuumChat.WrapMessage(vacuumHearing, wrappedMessage), source, false, session.Channel); // Aquila Change
         }
 
         var replayWrap = WrapWhisperMessage(source, "chat-manager-entity-whisper-wrap-message", name, message, language, colorOverride);
@@ -1017,6 +1023,10 @@ public sealed partial class ChatSystem : SharedChatSystem
                 continue; // Floofstation - Some things don't go through walls, but they can go through windows!
             EntityUid listener = session.AttachedEntity.Value;
 
+            var vacuumHearing = channel == ChatChannel.Local ? _vacuumChat.GetHearing(source, listener) : VacuumHearing.Air; // Aquila Change
+            if (vacuumHearing == VacuumHearing.None) // Aquila Change
+                continue; // Aquila Change
+
             // Goob edit start
             // Raises a event for the deaf and blind component
             var ev = new ChatMessageOverrideInRange(language.SpeechOverride.RequireSpeech, language.SpeechOverride.RequireSight);
@@ -1028,9 +1038,9 @@ public sealed partial class ChatSystem : SharedChatSystem
 
             // If the channel does not support languages, or the entity can understand the message, send the original message, otherwise send the obfuscated version
             if (channel == ChatChannel.LOOC || channel == ChatChannel.Emotes || _language.CanUnderstand(listener, language.ID))
-                _chatManager.ChatMessageToOne(channel, message, wrappedMessage, source, entHideChat, session.Channel, author: author);
+                _chatManager.ChatMessageToOne(channel, message, _vacuumChat.WrapMessage(vacuumHearing, wrappedMessage), source, entHideChat, session.Channel, author: author); // Aquila Change
             else
-                _chatManager.ChatMessageToOne(channel, obfuscated, obfuscatedWrappedMessage, source, entHideChat, session.Channel, author: author);
+                _chatManager.ChatMessageToOne(channel, obfuscated, _vacuumChat.WrapMessage(vacuumHearing, obfuscatedWrappedMessage), source, entHideChat, session.Channel, author: author); // Aquila Change
             // Einstein Engines - Language end
         }
 

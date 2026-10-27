@@ -129,7 +129,7 @@
     - calmdynamic
   name: sleeper-title
   description: sleeper-description
-  showInVote: true
+  showInVote: false # Aquila Change
   minPlayers: 5
   rules:
     - CalmDynamic
@@ -200,7 +200,7 @@
     - survivalnew
   name: survivalplus-title
   description: survivalplus-description
-  showInVote: true
+  showInVote: false # Aquila Change
   rules:
     - SecretPlusRampingMid
     - MeteorSwarmScheduler
@@ -243,7 +243,7 @@
     - Bare
   name: secretplus-lowpop-title
   description: secretplus-lowpop-description
-  showInVote: true
+  showInVote: false # Aquila Change
   maxPlayers: 40
   rules:
     - SecretPlusLowpop
