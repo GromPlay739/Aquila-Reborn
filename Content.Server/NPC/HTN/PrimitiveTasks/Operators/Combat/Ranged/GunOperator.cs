@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+using Content.Server._Aquila.NPC; // Aquila Change
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.NPC.Components;
@@ -65,8 +66,10 @@ public sealed partial class GunOperator : HTNOperator, IHtnConditionalShutdown
     {
         base.Startup(blackboard);
 
+        if (!HtnTargetHelper.TryGetExistingTarget(blackboard, TargetKey, _entManager, out var target)) // Aquila Change
+            return; // Aquila Change
         var ranged = _entManager.EnsureComponent<NPCRangedCombatComponent>(blackboard.GetValue<EntityUid>(NPCBlackboard.Owner));
-        ranged.Target = blackboard.GetValue<EntityUid>(TargetKey);
+        ranged.Target = target; // Aquila Change
         ranged.UseOpaqueForLOSChecks = UseOpaqueForLOSChecks;
 
         if (blackboard.TryGetValue<float>(NPCBlackboard.RotateSpeed, out var rotSpeed, _entManager))

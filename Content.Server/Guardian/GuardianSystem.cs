@@ -29,7 +29,7 @@ namespace Content.Server.Guardian
     /// <summary>
     /// A guardian has a host it's attached to that it fights for. A fighting spirit.
     /// </summary>
-    public sealed class GuardianSystem : EntitySystem
+    public sealed partial class GuardianSystem : EntitySystem // Aquila Change
     {
         [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
         [Dependency] private readonly PopupSystem _popupSystem = default!;
@@ -66,6 +66,7 @@ namespace Content.Server.Guardian
             SubscribeLocalEvent<GuardianComponent, AttackAttemptEvent>(OnGuardianAttackAttempt);
 
             SubscribeLocalEvent<GuardianHostComponent, MechPilotRelayedEvent<GettingAttackedAttemptEvent>>(OnPilotAttackAttempt);
+            InitializeAquila(); // Aquila Change
         }
 
         private void OnGuardianShutdown(EntityUid uid, GuardianComponent component, ComponentShutdown args)
@@ -83,6 +84,7 @@ namespace Content.Server.Guardian
             hostComponent.HostedGuardian = null;
             QueueDel(hostComponent.ActionEntity);
             hostComponent.ActionEntity = null;
+            RemoveOrdersAction(hostComponent); // Aquila Change
         }
 
         private void OnPerformAction(EntityUid uid, GuardianHostComponent component, GuardianToggleActionEvent args)
@@ -131,6 +133,7 @@ namespace Content.Server.Guardian
         {
             component.GuardianContainer = _container.EnsureContainer<ContainerSlot>(uid, "GuardianContainer");
             _actionSystem.AddAction(uid, ref component.ActionEntity, component.Action);
+            AddOrdersAction(uid, component); // Aquila Change
         }
 
         private void OnHostShutdown(EntityUid uid, GuardianHostComponent component, ComponentShutdown args)
@@ -145,6 +148,7 @@ namespace Content.Server.Guardian
             QueueDel(guardian);
             QueueDel(component.ActionEntity);
             component.ActionEntity = null;
+            RemoveOrdersAction(component); // Aquila Change
         }
 
         private void OnGuardianAttackAttempt(EntityUid uid, GuardianComponent component, AttackAttemptEvent args)
@@ -251,6 +255,7 @@ namespace Content.Server.Guardian
             if (TryComp<GuardianComponent>(guardian, out var guardianComp))
             {
                 guardianComp.Host = args.Args.Target.Value;
+                StartGuardianOrders(guardian, args.Args.Target.Value, guardianComp); // Aquila Change
                 _audio.PlayPvs(guardianComp.InjectSound, args.Args.Target.Value);
                 _popupSystem.PopupEntity(Loc.GetString("guardian-created"), args.Args.Target.Value, args.Args.Target.Value);
                 // Exhaust the activator
@@ -285,7 +290,7 @@ namespace Content.Server.Guardian
             {
                 if (guardianComp != null)
                     _audio.PlayPvs(guardianComp.DeathSound, uid);
-                RemComp<GuardianHostComponent>(uid);
+                HandleHostDeath(uid, component); // Aquila Change
             }
         }
 
@@ -375,38 +380,14 @@ namespace Content.Server.Guardian
             {
                 if (hostXform.MapID != guardianXform.MapID)
                 {
-                    // Aquila Start
-                    guardianComponent.IsBeginRepositioned = true;
-                    try
-                    {
-                        _transform.SetCoordinates(guardianUid, guardianXform, hostXform.Coordinates);
-                    }
-                    finally
-                    {
-                        guardianComponent.IsBeginRepositioned = false;
-                    }
-                    // Aquila End
+                    RepositionGuardian(guardianUid, guardianComponent, guardianXform, hostXform.Coordinates); // Aquila Change
                 }
                 else
                 {
                     // host's position in our parent's coordinates
                     var hostPos = hostXform.Coordinates.WithEntityId(guardianXform.ParentUid, EntityManager).Position;
                     var diff = guardianXform.LocalPosition - hostPos;
-                    // Aquila Start
-                    if (diff.LengthSquared() < 0.0001f)
-                        return;
-
-                    var newDiff = diff.Normalized() * guardianComponent.DistanceAllowed;
-                    guardianComponent.IsBeginRepositioned = true;
-                    try
-                    {
-                        _transform.SetLocalPosition(guardianUid, hostPos + newDiff, guardianXform);
-                    }
-                    finally
-                    {
-                        guardianComponent.IsBeginRepositioned = false;
-                    }
-                    // Aquila End
+                    PullGuardianToHost(guardianUid, guardianComponent, guardianXform, hostPos, diff); // Aquila Change
                 }
             }
         }
@@ -439,38 +420,5 @@ namespace Content.Server.Guardian
             _popupSystem.PopupEntity(Loc.GetString("guardian-entity-recall"), host);
             guardianComponent.GuardianLoose = false;
         }
-
-        // Aquila Start
-        public EntityUid? CreateGuardian(EntityUid target, string guardianProto)
-        {
-            if (HasComp<GuardianHostComponent>(target))
-                return null;
-
-            var hostXform = Transform(target);
-            var host = EnsureComp<GuardianHostComponent>(target);
-            var guardian = Spawn(guardianProto, _transform.GetMapCoordinates(target, xform: hostXform));
-
-            _faction.IgnoreEntity(guardian, target);
-            var sharedComp = EnsureComp<GuardianSharedComponent>(guardian);
-            sharedComp.Host = target;
-            Dirty(guardian, sharedComp);
-
-            _container.Insert(guardian, host.GuardianContainer);
-            host.HostedGuardian = guardian;
-
-            if (TryComp<GuardianComponent>(guardian, out var guardianComp))
-            {
-                guardianComp.Host = target;
-                _audio.PlayPvs(guardianComp.InjectSound, target);
-                _popupSystem.PopupEntity(Loc.GetString("guardian-created"), target, target);
-                return guardian;
-            }
-
-            QueueDel(guardian);
-            QueueDel(host.ActionEntity);
-            RemComp<GuardianHostComponent>(target);
-            return null;
-        }
-        // Aquila End
     }
 }
