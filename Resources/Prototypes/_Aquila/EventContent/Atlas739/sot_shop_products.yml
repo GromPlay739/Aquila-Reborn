@@ -1,0 +1,115 @@
+# Работа выполнена Claude (Anthropic).
+# ==========================================================
+# ТОВАРЫ МАГАЗИНА SoT
+#
+# КАК ДОБАВИТЬ ТОВАР
+#   Скопируйте любой блок ниже и поменяйте поля:
+#
+#   - type: cargoProduct
+#     id: SotAthenaCutlass              # уникальный ID товара (нигде больше не встречается)
+#     icon:                             # картинка в списке: RSI от Resources/Textures + состояние (обычно icon)
+#       sprite: Objects/Weapons/Melee/cutlass.rsi
+#       state: icon
+#     product: Cutlass                  # ID сущности: именно она появится на телепаде
+#     cost: 300                         # цена в кредитах
+#     category: sot-shop-category-weapons   # ключ локализации (см. sot-shop.ftl): вкладка списка
+#     group: SotAthenaMarket            # рынок: SotAthenaMarket - Афина, SotReapersMarket - Жнецы
+#     # cooldown: 0                     # необязательно: пауза между заказами этого товара, секунд
+#     # name: ...                       # необязательно: по умолчанию имя берётся из сущности product
+#     # description: ...                # необязательно: описание
+#
+#   Что можно заказывать:
+#     - предмет (меч, броня, аптечка): поле product - ID самого предмета;
+#     - ящик с набором: поле product - ID ящика (сущность-контейнер с содержимым).
+#   Товар виден только на консоли, у которой этот group указан в allowedGroups,
+#   и только если этот group есть в markets станции (sot_shop.yml).
+#   Чтобы товар продавался обеим фракциям, сделайте два блока с разными id и group.
+#   Новую категорию добавьте ключом в sot-shop.ftl и используйте в поле category.
+#
+#   Как узнать RSI иконки: откройте прототип предмета, там sprite и state (или возьмите
+#   sprite: и state: icon из rsi предмета).
+# ==========================================================
+
+# ---------- АФИНА ----------
+
+- type: cargoProduct
+  id: SotAthenaCutlass
+  icon:
+    sprite: Objects/Weapons/Melee/cutlass.rsi
+    state: icon
+  product: Cutlass
+  cost: 300
+  category: sot-shop-category-weapons
+  group: SotAthenaMarket
+
+- type: cargoProduct
+  id: SotAthenaArmor
+  icon:
+    sprite: Clothing/OuterClothing/Armor/security.rsi
+    state: icon
+  product: ClothingOuterArmorBasic
+  cost: 500
+  category: sot-shop-category-armor
+  group: SotAthenaMarket
+
+- type: cargoProduct
+  id: SotAthenaHelmet
+  icon:
+    sprite: Clothing/Head/Helmets/security.rsi
+    state: icon
+  product: ClothingHeadHelmetBasic
+  cost: 250
+  category: sot-shop-category-armor
+  group: SotAthenaMarket
+
+- type: cargoProduct
+  id: SotAthenaBrutepack
+  icon:
+    sprite: Objects/Specific/Medical/medical.rsi
+    state: brutepack
+  product: Brutepack
+  cost: 100
+  category: sot-shop-category-medical
+  group: SotAthenaMarket
+
+# ---------- ЖНЕЦЫ ----------
+
+- type: cargoProduct
+  id: SotReapersMachete
+  icon:
+    sprite: Objects/Weapons/Melee/machete.rsi
+    state: icon
+  product: Machete
+  cost: 300
+  category: sot-shop-category-weapons
+  group: SotReapersMarket
+
+- type: cargoProduct
+  id: SotReapersArmor
+  icon:
+    sprite: Clothing/OuterClothing/Armor/security.rsi
+    state: icon
+  product: ClothingOuterArmorBasic
+  cost: 500
+  category: sot-shop-category-armor
+  group: SotReapersMarket
+
+- type: cargoProduct
+  id: SotReapersHelmet
+  icon:
+    sprite: Clothing/Head/Helmets/security.rsi
+    state: icon
+  product: ClothingHeadHelmetBasic
+  cost: 250
+  category: sot-shop-category-armor
+  group: SotReapersMarket
+
+- type: cargoProduct
+  id: SotReapersOintment
+  icon:
+    sprite: Objects/Specific/Medical/medical.rsi
+    state: ointment
+  product: Ointment
+  cost: 100
+  category: sot-shop-category-medical
+  group: SotReapersMarket

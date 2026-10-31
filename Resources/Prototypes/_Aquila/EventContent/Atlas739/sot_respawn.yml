@@ -1,0 +1,66 @@
+# Работа выполнена Claude (Anthropic).
+# ==========================================================
+# Платформы воскрешения на базах (Афина и Жнецы).
+# Клик по платформе привязывает игрока (повторный клик отвязывает). Когда привязанный игрок умирает,
+# через delay секунд его тело переносится на платформу, полностью лечится, а душа возвращается в тело.
+# Ставятся на базе. Платформа не блокирует проход (на неё можно ставить ногу) и неразрушима.
+# ==========================================================
+
+- type: entity
+  abstract: true
+  parent: BaseStructure
+  id: SotRespawnPadBase
+  suffix: SoT
+  components:
+  - type: Physics
+    bodyType: Static
+    canCollide: false        # плитка на полу: не мешает ходить, тело воскрешённого не застрянет
+  - type: InteractionOutline
+  - type: Appearance
+  - type: Sprite
+    sprite: _Aquila/EventContent/Atlas739/sot_respawn_pad.rsi
+    drawdepth: FloorObjects
+
+- type: entity
+  parent: SotRespawnPadBase
+  id: SotRespawnPadAthena
+  name: платформа воскрешения Афины
+  description: "Привяжитесь к ней: после смерти вас вернёт сюда целым и невредимым."
+  suffix: SoT, Афина
+  components:
+  - type: Sprite
+    layers:
+    - state: athena
+      map: [ "enum.SotRespawnPadVisualLayers.Base" ]
+  - type: GenericVisualizer
+    visuals:
+      enum.SotRespawnPadVisuals.Bound:
+        enum.SotRespawnPadVisualLayers.Base:
+          True: { state: athena_bound }
+          False: { state: athena }
+  - type: SotRespawnPad
+    side: Athena            # привязаться могут только игроки Афины (убрать строку - любой)
+    maxBound: 1             # сколько игроков можно привязать
+    delay: 5                # секунд от смерти до воскрешения
+
+- type: entity
+  parent: SotRespawnPadBase
+  id: SotRespawnPadReapers
+  name: платформа воскрешения Жнецов
+  description: "Привяжитесь к ней: после смерти вас вернёт сюда целым и невредимым."
+  suffix: SoT, Жнецы
+  components:
+  - type: Sprite
+    layers:
+    - state: reapers
+      map: [ "enum.SotRespawnPadVisualLayers.Base" ]
+  - type: GenericVisualizer
+    visuals:
+      enum.SotRespawnPadVisuals.Bound:
+        enum.SotRespawnPadVisualLayers.Base:
+          True: { state: reapers_bound }
+          False: { state: reapers }
+  - type: SotRespawnPad
+    side: Reapers
+    maxBound: 1
+    delay: 5
