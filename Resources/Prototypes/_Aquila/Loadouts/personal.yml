@@ -59,7 +59,7 @@
 
 # CrookLv
 - type: loadout
-  id: PersonalLoadoutCrookLvPlushie # плюшевый Круки-Лим
+  id: PersonalLoadoutCrookLvPlushie
   effects:
   - !type:PersonalLoadoutEffect
     users:
@@ -67,6 +67,42 @@
   storage:
     back:
     - PlushieCrookie
+
+- type: loadout
+  id: PersonalLoadoutCrookLvScienceJumpsuit
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 2efe22d0-4ff1-4d5b-9cc7-324bf9452cff
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSUNSSciencejumpsuit
+
+- type: loadout
+  id: PersonalLoadoutCrookLvLongGloves
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 2efe22d0-4ff1-4d5b-9cc7-324bf9452cff
+  equipment:
+    gloves: ClothingHandsGlovesSUNSLongglovesblack
+
+- type: loadout
+  id: PersonalLoadoutCrookLvLaceups
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 2efe22d0-4ff1-4d5b-9cc7-324bf9452cff
+  equipment:
+    shoes: ClothingShoesSUNSLaceups
+
+- type: loadout
+  id: PersonalLoadoutCrookLvShoulderCape
+  effects:
+  - !type:PersonalLoadoutEffect
+    users:
+    - 2efe22d0-4ff1-4d5b-9cc7-324bf9452cff
+  equipment:
+    neck: ClothingNeckSUNSShouldercape
 # CrookLv
 
 # KEEYN
