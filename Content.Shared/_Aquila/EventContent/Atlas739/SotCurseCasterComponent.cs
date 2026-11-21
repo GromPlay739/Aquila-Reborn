@@ -31,6 +31,15 @@ public sealed partial class SotCurseCasterComponent : Component
     [DataField]
     public SotSide? TargetSide;
 
+    /// <summary>
+    ///     ИЗМЕНИТЬ: где можно проклинать. По умолчанию проклинающий должен стоять в зоне, отмеченной
+    ///     маркерами SotCurseZoneMarker (Caster). Другие варианты: Target (в зоне должна быть цель),
+    ///     Both (оба), Anywhere (без ограничений). Если на карте нет маркеров, при Caster/Target/Both
+    ///     действие работать не будет.
+    /// </summary>
+    [DataField]
+    public SotCurseZoneRule ZoneRule = SotCurseZoneRule.Caster;
+
     /// <summary>Выданное действие (сервер). Не данные прототипа, поэтому не DataField.</summary>
     [ViewVariables]
     public EntityUid? ActionEntity;

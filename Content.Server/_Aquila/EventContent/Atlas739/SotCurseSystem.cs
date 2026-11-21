@@ -19,6 +19,7 @@ public sealed class SotCurseSystem : SharedSotCurseSystem
 {
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {
@@ -68,6 +69,19 @@ public sealed class SotCurseSystem : SharedSotCurseSystem
 
         var target = args.Target;
 
+        // Зона проклятия: проверяем раньше всего, чтобы игрок сразу понял, что дело в месте. Не handled: кулдаун не тратится.
+        if ((comp.ZoneRule is SotCurseZoneRule.Caster or SotCurseZoneRule.Both) && !InZone(uid))
+        {
+            _popup.PopupEntity(Loc.GetString("sot-curse-no-zone-caster"), uid, uid);
+            return;
+        }
+
+        if ((comp.ZoneRule is SotCurseZoneRule.Target or SotCurseZoneRule.Both) && !InZone(target))
+        {
+            _popup.PopupEntity(Loc.GetString("sot-curse-no-zone-target"), uid, uid);
+            return;
+        }
+
         // Проклясть можно только члена нужной фракции: явно заданной (TargetSide) или, по умолчанию, своей
         // собственной (SotFaction.Side проклинающего). Не handled: кулдаун не запускается.
         SotSide? allowedSide = comp.TargetSide;
@@ -96,6 +110,28 @@ public sealed class SotCurseSystem : SharedSotCurseSystem
         _popup.PopupEntity(Loc.GetString("sot-curse-received"), target, target, PopupType.LargeCaution);
 
         args.Handled = true;
+    }
+
+    /// <summary>
+    ///     Стоит ли сущность на плитке с маркером зоны проклятия. Сравнивается сетка и индексы плитки
+    ///     (так же, как у AtmosFix-маркеров), поэтому зона не зависит от поворота и движения корабля.
+    /// </summary>
+    private bool InZone(EntityUid subject)
+    {
+        var subjectXform = Transform(subject);
+        var subjectTile = _transform.GetGridOrMapTilePosition(subject, subjectXform);
+
+        var query = EntityQueryEnumerator<SotCurseZoneComponent, TransformComponent>();
+        while (query.MoveNext(out var zoneUid, out _, out var zoneXform))
+        {
+            if (zoneXform.MapID != subjectXform.MapID || zoneXform.GridUid != subjectXform.GridUid)
+                continue;
+
+            if (_transform.GetGridOrMapTilePosition(zoneUid, zoneXform) == subjectTile)
+                return true;
+        }
+
+        return false;
     }
 
     #endregion

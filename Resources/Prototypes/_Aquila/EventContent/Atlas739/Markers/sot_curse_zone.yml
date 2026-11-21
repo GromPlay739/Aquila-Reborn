@@ -1,0 +1,15 @@
+# Работа выполнена Claude (Anthropic).
+# Маркер зоны проклятия SoT. Ставится в маппинге на плитку (как AtmosFix-маркеры); название и описание: sot-curse.ftl.
+# Действие "Проклясть" срабатывает только в зоне, образованной такими маркерами (см. SotCurseCaster.zoneRule).
+#
+# ИЗМЕНИТЬ: спрайт (сейчас заготовка из стандартных маркеров, состояние base-hot).
+- type: entity
+  parent: MarkerBase
+  id: SotCurseZoneMarker
+  components:
+  - type: Sprite
+    layers:
+    - sprite: Markers/atmos.rsi
+      state: base-hot
+      shader: unshaded
+  - type: SotCurseZone

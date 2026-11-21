@@ -9,6 +9,8 @@
 #     Значение по умолчанию (если поле не указано): #73ff8c8c (зелёный, примерно 55% непрозрачности).
 #   - Кто может быть проклят: по умолчанию члены СВОЕЙ фракции (SotFaction.Side проклинающего). Явно задать
 #     можно полем targetSide компонента SotCurseCaster (Athena или Reapers).
+#   - Где можно проклинать: поле zoneRule компонента SotCurseCaster (по умолчанию Caster: проклинающий стоит в зоне, отмеченной
+#     маркерами SotCurseZoneMarker; Target, Both или Anywhere для других вариантов). Маркеры: Markers/sot_curse_zone.yml.
 #   - Дальность, кулдаун и иконки действий: ниже (range, useDelay, icon).
 
 - type: entity
