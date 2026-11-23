@@ -6,6 +6,13 @@
 # и МГНОВЕННО переносит тело на платформу, полностью лечит его и возвращает душу.
 # (autoRespawn: true - воскрешение само через delay секунд, без действия.)
 # Ставятся на базе. Платформа не блокирует проход (на неё можно ставить ногу) и неразрушима.
+#
+# ДВА ТИПА ПЛАТФОРМ (поле padType компонента SotRespawnPad)
+#   - Static (по умолчанию): на базе, работает всегда, точка воскрешения вне боёв. Это SotRespawnPadAthena/Reapers.
+#   - Ship: на шаттле (SotRespawnPadShipAthena/Reapers), работает ТОЛЬКО пока идёт бой, в котором участвует шаттл,
+#     на котором она стоит. Когда этот бой заканчивается, платформа отключается (тускнеет, привязки снимаются), а воскрешение
+#     идёт на статичных платформах. Шаттл участника боя определяется по ID привязки его песочных часов (ShuttleLink):
+#     ставьте судовую платформу на тот же грид, где стоят песочные часы. Платформы на шаттлах других боёв не затрагиваются.
 # ==========================================================
 
 - type: entity
@@ -42,7 +49,7 @@
           False: { state: athena }
   - type: SotRespawnPad
     side: Athena            # привязаться могут только игроки Афины (убрать строку - любой)
-    maxBound: 2           # сколько игроков можно привязать
+    maxBound: 1        # сколько игроков можно привязать
     actionDelay: 10         # через сколько секунд после смерти призрак может воскреснуть действием
     autoRespawn: true     # true - воскрешать само через delay секунд, без действия
     delay: 60                # секунд до авто-воскрешения (только при autoRespawn: true)
@@ -66,10 +73,69 @@
           False: { state: reapers }
   - type: SotRespawnPad
     side: Reapers
-    maxBound: 2           # сколько игроков можно привязать
+    maxBound: 1           # сколько игроков можно привязать
     actionDelay: 10         # через сколько секунд после смерти призрак может воскреснуть действием
     autoRespawn: true     # true - воскрешать само через delay секунд, без действия
     delay: 60                # секунд до авто-воскрешения (только при autoRespawn: true)
+
+# ---------- Судовые платформы ----------
+# Ставятся на шаттлы. Включены только во время боя своего шаттла; вне боя тусклые и отвязывают игроков.
+# ИЗМЕНИТЬ: maxBound (сколько игроков можно привязать), actionDelay / delay / autoRespawn (скорость воскрешения в бою).
+# Внешний вид: пока те же спрайты, что у статичных, но с оттенком (включена) и серым цветом (отключена);
+# заменить можно в GenericVisualizer ниже, добавив свои состояния в rsi.
+- type: entity
+  abstract: true
+  parent: SotRespawnPadBase
+  id: SotRespawnPadShipBase
+  components:
+  - type: SotRespawnPad
+    padType: Ship
+    maxBound: 4
+    actionDelay: 10
+    autoRespawn: true
+    delay: 20
+
+- type: entity
+  parent: SotRespawnPadShipBase
+  id: SotRespawnPadShipAthena
+  components:
+  - type: Sprite
+    layers:
+    - state: athena
+      map: [ "enum.SotRespawnPadVisualLayers.Base" ]
+  - type: GenericVisualizer
+    visuals:
+      enum.SotRespawnPadVisuals.Bound:
+        enum.SotRespawnPadVisualLayers.Base:
+          True: { state: athena_bound }
+          False: { state: athena }
+      enum.SotRespawnPadVisuals.Active:
+        enum.SotRespawnPadVisualLayers.Base:
+          True: { color: "#9fd8ff" }     # включена: голубоватый оттенок
+          False: { color: "#4a4a4a" }    # отключена: серая
+  - type: SotRespawnPad
+    side: Athena
+
+- type: entity
+  parent: SotRespawnPadShipBase
+  id: SotRespawnPadShipReapers
+  components:
+  - type: Sprite
+    layers:
+    - state: reapers
+      map: [ "enum.SotRespawnPadVisualLayers.Base" ]
+  - type: GenericVisualizer
+    visuals:
+      enum.SotRespawnPadVisuals.Bound:
+        enum.SotRespawnPadVisualLayers.Base:
+          True: { state: reapers_bound }
+          False: { state: reapers }
+      enum.SotRespawnPadVisuals.Active:
+        enum.SotRespawnPadVisualLayers.Base:
+          True: { color: "#ffb36b" }     # включена: оранжевый оттенок
+          False: { color: "#4a4a4a" }    # отключена: серая
+  - type: SotRespawnPad
+    side: Reapers
 
 # ---------- Действие призрака ----------
 # Выдаётся призраку привязанного игрока (система SotRespawnSystem), а не игроку напрямую.

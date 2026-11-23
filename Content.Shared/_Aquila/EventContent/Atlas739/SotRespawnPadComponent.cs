@@ -7,13 +7,23 @@ using Robust.Shared.Serialization;
 namespace Content.Shared._Aquila.EventContent.Atlas739;
 
 /// <summary>
-///     Платформа воскрешения на базе. К ней привязываются игроки (взаимодействие: привязать/отвязать).
+///     Платформа воскрешения. К ней привязываются игроки (взаимодействие: привязать/отвязать).
 ///     Когда привязанный игрок умирает, спустя Delay его тело телепортируется на платформу,
 ///     полностью лечится, а душа (если игрок ещё в роли призрака-посетителя) возвращается в тело.
+///     Два типа (PadType): статичная на базе (работает всегда) и судовая на шаттле (работает только во время
+///     боя этого шаттла, потом отключается; воскрешение идёт на статичных платформах).
 /// </summary>
 [RegisterComponent]
 public sealed partial class SotRespawnPadComponent : Component
 {
+    /// <summary>
+    ///     ИЗМЕНИТЬ: тип платформы. Static (по умолчанию) - на базе, работает всегда.
+    ///     Ship - на шаттле, работает только пока идёт бой, в котором участвует шаттл (грид), на котором она стоит.
+    ///     Шаттл участника боя определяется по ID привязки его песочных часов (ShuttleLink).
+    /// </summary>
+    [DataField]
+    public SotRespawnPadType PadType = SotRespawnPadType.Static;
+
     /// <summary>Какой фракции принадлежит платформа. null - привязаться может кто угодно.</summary>
     [DataField]
     public SotSide? Side;
@@ -50,13 +60,23 @@ public sealed partial class SotRespawnPadComponent : Component
     /// <summary>Привязанные игроки (рабочее состояние, заполняет сервер).</summary>
     [ViewVariables]
     public HashSet<EntityUid> Bound = new();
+
+    /// <summary>
+    ///     Включена ли платформа сейчас (рабочее состояние, обновляет сервер раз в полсекунды).
+    ///     Статичная всегда включена, судовая - только пока идёт бой её шаттла. null - ещё не проверялась.
+    /// </summary>
+    [ViewVariables]
+    public bool? Active;
 }
 
 [Serializable, NetSerializable]
 public enum SotRespawnPadVisuals : byte
 {
     /// <summary>bool: к платформе привязан хотя бы один игрок.</summary>
-    Bound
+    Bound,
+
+    /// <summary>bool: платформа включена (для судовой - идёт бой её шаттла).</summary>
+    Active
 }
 
 [Serializable, NetSerializable]

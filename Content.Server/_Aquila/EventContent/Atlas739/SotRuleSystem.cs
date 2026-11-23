@@ -23,6 +23,7 @@ public sealed class SotRuleSystem : GameRuleSystem<SotRuleComponent>
     [Dependency] private readonly DestructibleSystem _destructible = default!;
     [Dependency] private readonly RoundEndSystem _roundEnd = default!;
     [Dependency] private readonly SotPayoutSystem _payout = default!;
+    [Dependency] private readonly ShuttleLinkSystem _shuttleLink = default!;
 
     public override void Initialize()
     {
@@ -83,6 +84,35 @@ public sealed class SotRuleSystem : GameRuleSystem<SotRuleComponent>
     public bool IsInActiveBattle(string id)
     {
         return TryGetActiveRule(out var rule) && FindActiveBattle(rule.Comp, id) != null;
+    }
+
+    /// <summary>
+    ///     Участвует ли шаттл (грид) в какой-либо идущей битве. Участники битвы определяются по ID привязки их
+    ///     часов (ShuttleLink), а шаттл участника - грид, на котором стоят эти часы (см. ShuttleLinkSystem.TryGetShuttle).
+    ///     Битва, которая закончилась (любым способом), сюда уже не попадает, поэтому шаттлы только что
+    ///     завершённой битвы перестают считаться боевыми сразу, а шаттлы других идущих битв остаются.
+    ///     Нужна судовым платформам воскрешения (SotRespawnSystem).
+    /// </summary>
+    public bool IsGridInActiveBattle(EntityUid grid)
+    {
+        if (!TryGetActiveRule(out var rule))
+            return false;
+
+        foreach (var battle in rule.Comp.Battles)
+        {
+            if (battle.Status != SotBattleStatus.Active)
+                continue;
+
+            if (IsShuttleOf(battle.IdA, grid) || IsShuttleOf(battle.IdB, grid))
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IsShuttleOf(string id, EntityUid grid)
+    {
+        return _shuttleLink.TryGetShuttle(id, out var shuttle) && shuttle == grid;
     }
 
     #endregion
